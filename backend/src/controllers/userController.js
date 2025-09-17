@@ -1,7 +1,7 @@
 const User = require('../database/models/User');
 
 module.exports = {
-  async getAll(req, res) {
+  async getUser(req, res) {
     console.log('pegou');
   },
 
