@@ -1,14 +1,18 @@
 const { Sequelize } = require('sequelize');
-const dbConfig = require('../config/config')[process.env.NODE_ENV || 'development'];
-const User = require('../models/User');
+const dbConfig = require('../config/config').development;
+const User = require('../database/models/User');
 
-const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
-  host: dbConfig.host,
-  dialect: dbConfig.dialect,
-  define: dbConfig.define,
-  logging: false,
-});
+const connection = new Sequelize(
+  dbConfig.database,
+  dbConfig.username,
+  dbConfig.password,
+  {
+    host: dbConfig.host,
+    dialect: dbConfig.dialect,
+    define: dbConfig.define,
+  }
+);
 
-User.init(sequelize);
+User.init(connection);
 
-module.exports = sequelize;
+module.exports = connection;

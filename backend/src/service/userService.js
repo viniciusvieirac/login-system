@@ -1,12 +1,9 @@
-const User = require('../models/User');
+const User = require('../database/models/User');
 
-const createUser = () => console.log('criou');
-
-const getUsers = () => console.log('pegou');
-
-const getByemail = () => console.log('pegou pelo email');
-
-const getByUserId = () => console.log('pegou pelo id');
+const createUser = ({ name, email, password }) => User.create({ name, email, password });
+const getUsers = () => User.findAll({ attributes: { exclude: ['password'] } });
+const getByemail = (email) => User.findOne({ where: { email } });
+const getByUserId = (userId) => User.findByPk(userId, { attributes: { exclude: ['password'] } });
 
 module.exports = {
   createUser,

@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const { verifyToken } = require('../utils/token');
 require('dotenv').config();
 const secret = process.env.JWT_SECRET;
 
@@ -14,9 +15,11 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ error: 'Token malformatted' });
   }
 
-  jwt.verify(parts[1], secret, (err, decoded) => {
-    if (err) return res.status(401).json({ error: 'Token invalid' });
+  try {
+    const decoded = verifyToken(parts[1]);
     req.userId = decoded.id;
     next();
-  });
+  } catch (err) {
+    return res.status(401).json({ error: 'Token invalid' });
+  }
 };
