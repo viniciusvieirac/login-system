@@ -2,13 +2,16 @@ const express = require('express');
 const app = express();
 const routes = require('./routes/login');
 require('./database');
-
+const cors = require('cors');
 
 app.use(express.json());
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
 
 app.use('/api', routes);
 app.get('/', (request, response) => {
-  return response.send('hello world');
+  return response.send('vasco da gama');
 });
 
 app.listen(8888, () => {

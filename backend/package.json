@@ -11,7 +11,12 @@
     "db:seed": "npx sequelize-cli db:seed:all",
     "db:create": "npx sequelize-cli db:create"
   },
-  "keywords": ["nodejs", "express", "sequelize", "authentication"],
+  "keywords": [
+    "nodejs",
+    "express",
+    "sequelize",
+    "authentication"
+  ],
   "author": "Seu Nome",
   "license": "ISC",
   "dependencies": {
