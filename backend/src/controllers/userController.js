@@ -1,5 +1,6 @@
 const User = require('../database/models/User');
 const UserService = require('../service/userService');
+const bcrypt = require('bcryptjs');
 const { generateToken } = require('../utils/token');
 
 module.exports = {
@@ -18,13 +19,18 @@ module.exports = {
   async create(req, res) {
     try {
       const { name, email, password } = req.body;
-      const newUser = await User.create({ name, email, password });
-      const token = User.generateToken({ id: newUser.id });
+      const user = await UserService.createUser({ name, email, password });
+      const token = generateToken({ id: user.id });
 
       return res.status(201).json({
         status: 'success',
         message: 'Usuário criado com sucesso',
-        user,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          password: undefined,
+        },
         token,
       });
     } catch (error) {
