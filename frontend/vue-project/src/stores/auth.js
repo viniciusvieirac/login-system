@@ -76,7 +76,7 @@ export const useAuthStore = defineStore('auth', {
       try {
         const res = await api.get('/profile')
         console.log('[auth.js] Perfil carregado:', res.data)
-        this.user = res.data
+        this.user = res.data.user
         return this.user
       } catch (err) {
         console.error('[auth.js] Erro ao buscar perfil:', err.response?.data || err.message)
