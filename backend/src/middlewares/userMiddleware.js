@@ -6,13 +6,13 @@ const validateUser = (req, res, next) => {
   const { name, password } = req.body;
 
   if (!name || !password) {
-    return res.status(400).json({ message: '"name" and "password" are required fields' });
+    return res.status(400).json({ message: '"Nome" e "Senha" Precisam ser preenchidos' });
   }
   if (name.length < 8) {
-    return res.status(400).json({ message: '"name" length must be at least 8 characters long' });
+    return res.status(400).json({ message: '"Nome" Precisa ter pelo menos 8 caracteres' });
   }
   if (password.length < 6) {
-    return res.status(400).json({ message: '"password" length must be at least 6 characters long' });
+    return res.status(400).json({ message: '"Senha" Precisa ter pelo menos 6 caracteres ' });
   }
 
   next();
@@ -21,11 +21,11 @@ const validateUser = (req, res, next) => {
 const validateEmail = async (req, res, next) => {
   const { email } = req.body;
   if (!emailRegex.test(email)) {
-    return res.status(400).json({ message: '"email" must be a valid email' });
+    return res.status(400).json({ message: '"Email" Deve ser um email válido.' });
   }
   const user = await userController.getUserByEmail(email);
   if (user) {
-    return res.status(409).json({ message: 'User already registered' });
+    return res.status(409).json({ message: 'Usuário já cadastrado' });
   }
   next();
 };

@@ -43,7 +43,7 @@ module.exports = {
       const { email, password } = req.body;
       const user = await UserService.getByemail(email);
       if (!user) {
-        return res.status(400).json({ status: 0, message: 'E-mail ou senha incorreto!' });
+        return res.status(400).json({ status: 0, message: 'Email não cadastrado, cadastre-se!' });
       }
 
       const isPasswordValid = await bcrypt.compare(password, user.password);
