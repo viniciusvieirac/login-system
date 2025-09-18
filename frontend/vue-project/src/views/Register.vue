@@ -8,6 +8,7 @@
         <input v-model="password" type="password" placeholder="Senha (6+)" required minlength="6" />
         <button :disabled="loading">{{ loading ? 'Cadastrando...' : 'Cadastrar' }}</button>
         <p v-if="error" class="error">{{ error }}</p>
+        <span v-if="successMessage" class="success">{{ successMessage }}</span>
       </form>
     </div>
   </div>
@@ -26,16 +27,24 @@ const email = ref('')
 const password = ref('')
 const loading = ref(false)
 const error = ref(null)
+const successMessage = ref(null)
 
 async function submit() {
   loading.value = true
   error.value = null
+  successMessage.value = null
 
   try {
     await authStore.register(name.value, email.value, password.value)
+    successMessage.value = 'Cadastro realizado com sucesso! Redirecionando...'
     await authStore.login(email.value, password.value)
+    setTimeout(() => {
     router.push('/profile')
+    }, 2000)
+
+
   } catch (err) {
+    console.error('Registration error:', err)
     error.value = err.response?.data?.message || 'Erro ao registrar'
   } finally {
     loading.value = false
@@ -117,6 +126,15 @@ async function submit() {
 
 .register .error {
   color: #e74c3c;
+  text-align: center;
+  padding: 0.7rem;
+  border-radius: 6px;
+  background-color: rgba(231, 76, 60, 0.1);
+  margin: 0;
+}
+
+.register .success {
+  color: blue;
   text-align: center;
   padding: 0.7rem;
   border-radius: 6px;
