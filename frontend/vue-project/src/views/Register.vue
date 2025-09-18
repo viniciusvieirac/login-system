@@ -1,40 +1,46 @@
 <template>
-  <div>
+  <div class="register">
     <h2>Cadastro</h2>
-    <form>
-      <div>
-        <label for="name">Nome:</label>
-        <input
-          type="text"
-          id="name"
-          required
-          placeholder="Seu nome completo"
-        />
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          required
-          placeholder="Seu email"
-        />
-      </div>
-      <div class="form-group">
-        <label for="password">Senha:</label>
-        <input
-          type="password"
-          id="password"
-          required
-          placeholder="Sua senha"
-          minlength="6"
-        />
-      </div>
-      <button type="submit">
-      </button>
-      <p>
-        Já tem uma conta? <router-link to="/login">Faça login</router-link>
-      </p>
+    <form @submit.prevent="submit">
+      <input v-model="name" placeholder="Nome" required />
+      <input v-model="email" type="email" placeholder="Email" required />
+      <input v-model="password" type="password" placeholder="Senha (6+)" required minlength="6" />
+      <button :disabled="loading">{{ loading ? 'Cadastrando...' : 'Cadastrar' }}</button>
+      <p v-if="error" class="error">{{ error }}</p>
     </form>
   </div>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const router = useRouter()
+const authStore = useAuthStore()
+
+const name = ref('')
+const email = ref('')
+const password = ref('')
+const loading = ref(false)
+const error = ref(null)
+
+async function submit() {
+  console.log('[Register.vue] Tentando registrar', name.value, email.value)
+  loading.value = true
+  error.value = null
+
+  try {
+    await authStore.register(name.value, email.value, password.value)
+    console.log('[Register.vue] Registro OK, tentando login automático...')
+    await authStore.login(email.value, password.value)
+    console.log('[Register.vue] Login automático OK, redirecionando...')
+    router.push('/profile')
+  } catch (err) {
+    console.error('[Register.vue] Erro no registro:', err.response?.data || err.message)
+    error.value = err.response?.data?.message || 'Erro ao registrar'
+  } finally {
+    loading.value = false
+  }
+}
+</script>
