@@ -19,13 +19,10 @@ const auth = useAuthStore()
 const router = useRouter()
 
 onMounted(async () => {
-  console.log('[Profile.vue] auth.user inicial:', auth.user)
   if (!auth.user) {
     try {
       const profile = await auth.fetchProfile()
-      console.log('[Profile.vue] fetchProfile retornou:', profile)
     } catch (err) {
-      console.error('[Profile.vue] Erro ao buscar perfil:', err)
       router.push('/login')
     }
   }

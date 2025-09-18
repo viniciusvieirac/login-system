@@ -26,18 +26,14 @@ const loading = ref(false)
 const error = ref(null)
 
 async function submit() {
-  console.log('[Register.vue] Tentando registrar', name.value, email.value)
   loading.value = true
   error.value = null
 
   try {
     await authStore.register(name.value, email.value, password.value)
-    console.log('[Register.vue] Registro OK, tentando login automático...')
     await authStore.login(email.value, password.value)
-    console.log('[Register.vue] Login automático OK, redirecionando...')
     router.push('/profile')
   } catch (err) {
-    console.error('[Register.vue] Erro no registro:', err.response?.data || err.message)
     error.value = err.response?.data?.message || 'Erro ao registrar'
   } finally {
     loading.value = false
