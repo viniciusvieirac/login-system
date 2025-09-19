@@ -46,10 +46,15 @@ CREATE DATABASE user_login;
 Configure o arquivo .env:
 
 env
+
 DB_HOST=localhost
-DB_NAME=user_login  
+
+DB_NAME=user_login
+  
 DB_USER=root
+
 DB_PASSWORD=sua_senha
+
 JWT_SECRET=seu_jwt_secret
 
 
