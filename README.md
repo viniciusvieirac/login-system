@@ -34,11 +34,15 @@ npm run dev
 Aplicação rodará em http://localhost:5173
 
 ⚙️ Configuração
+
 Banco de Dados
+
 Crie o banco no MySQL:
 
 sql
+
 CREATE DATABASE user_login;
+
 Configure o arquivo .env:
 
 env
@@ -62,6 +66,7 @@ JWT_SECRET=seu_jwt_secret
 🛠️ Tecnologias:
 
 Backend: Node.js, Express, Sequelize, MySQL, JWT
+
 Frontend: Vue 3, Vue Router, Vuex
 
 🔌 Endpoints:
